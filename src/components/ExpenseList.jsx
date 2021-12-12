@@ -12,16 +12,29 @@ export default function ExpenseList() {
   return (
     <div>
       <h2 className="mt-3 font-medium text-4xl md:text-5xl">Expenses</h2>
-      <ul>
-        {expenses.map((expense) => (
-          <ExpenseItem
-            key={expense.id}
-            id={expense.id}
-            name={expense.name}
-            cost={expense.cost}
-          ></ExpenseItem>
-        ))}
-      </ul>
+      <div className="mt-4 overflow-hidden rounded-md sm:rounded-lg shadow-md">
+        <table className="w-full">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="text-left text-xs font-medium px-6 py-3 uppercase tracking-wider" scope="col">Name</th>
+              <th className="text-left text-xs font-medium px-6 py-3 uppercase tracking-wider" scope="col">Cost</th>
+              <th className="px-6 py-3 relative" scope="col">
+                <span className="sr-only">Delete</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenses.map((expense) => (
+              <ExpenseItem
+                key={expense.id}
+                id={expense.id}
+                name={expense.name}
+                cost={expense.cost}
+              ></ExpenseItem>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

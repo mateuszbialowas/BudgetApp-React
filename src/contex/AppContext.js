@@ -12,8 +12,8 @@ const initialState = {
   expenses: [
     { id: 12, name: "shopping", cost: 40 },
     { id: 13, name: "holiday", cost: 50 },
-    { id: 14, name: "shopping", cost: 40 },
-    { id: 15, name: "shopping", cost: 40 },
+    // { id: 14, name: "shopping", cost: 40 },
+    // { id: 15, name: "shopping", cost: 40 },
   ],
 };
 

@@ -1,17 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import ExpenseItem from "./ExpenseItem";
+import { AppContext } from "../contex/AppContext";
 
 export default function ExpenseList() {
-  const expenses = [
-    { id: 123123, name: "Shopping", cost: 50 },
-    { id: 1231234, name: "Shopping", cost: 50 },
-    { id: 1231235, name: "Shopping", cost: 50 },
-    { id: 1231236, name: "Shopping", cost: 50 },
-    { id: 1231237, name: "Shopping", cost: 50 },
-  ];
+  const {expenses} = useContext(AppContext); 
   return (
     <div>
-      <h2 className="mt-3 font-medium text-4xl md:text-5xl">Expenses</h2>
+      <h2 className="my-3 font-medium text-4xl md:text-5xl">Expenses</h2>
       <div className="mt-4 overflow-hidden rounded-md sm:rounded-lg shadow-md">
         <table className="w-full">
           <thead className="bg-gray-100">

@@ -1,12 +1,18 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { AppContext } from "../contex/AppContext";
 export default function Remaining() {
+  const { budget, expenses } = useContext(AppContext);
+
+  const totalExpences = expenses.reduce((total, item) => total + item.cost, 0);
+
+  const remaining = budget - totalExpences;
+
+  const alertType =
+    remaining < 0 ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700";
+
   return (
-    <div
-      className="bg-green-100 rounded-lg p-6 text-sm text-green-700 dark:bg-green-200 dark:text-green-800"
-      role="alert"
-    >
-      Remaining: $500
+    <div className={"rounded-lg p-6 text-sm " + alertType} role="alert">
+      Remaining: {`$${remaining}`}
     </div>
   );
 }

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function AddExpenseForm() {
+  const [name, setName] = useState("");
+  const [cost, setCost] = useState("");
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+  };
   return (
     <div>
       <h2 className="my-4 font-medium text-4xl md:text-5xl">Add Expense</h2>
-      <form>
+      <form onSubmit={onSubmit}>
         <div className="mb-6">
           <label
             htmlFor="name"
@@ -17,6 +23,8 @@ export default function AddExpenseForm() {
             id="name"
             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={name}
+            onChange={(event) => setName(event.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -31,6 +39,8 @@ export default function AddExpenseForm() {
             id="cost"
             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={cost}
+            onChange={(event) => setCost(event.target.value)}
           />
         </div>
         <button

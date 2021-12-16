@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { AppContext } from "../contex/AppContext";
 
 export default function ExpenseItem(props) {
+  const { dispatch } = useContext(AppContext);
+
+  const handleDeleteExpense = () => {
+    dispatch({
+      type: "DELETE_EXPENSE",
+      payload: props.id,
+    });
+  };
+
   const { id, name, cost } = props;
   return (
     <tr className="border-b bg-gray-50">
@@ -12,9 +22,10 @@ export default function ExpenseItem(props) {
       </td>
       <td className="text-right px-6 py-4">
         <FontAwesomeIcon
-          className="text-red-500"
+          className="text-red-500 cursor-pointer"
           icon={faTimesCircle}
           size="lg"
+          onClick={handleDeleteExpense}
         />
       </td>
     </tr>

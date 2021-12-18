@@ -5,11 +5,30 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   font-family: "Inter", sans-serif;
 }
 
 table tbody tr:nth-child(2n + 1) {
   background-color: white;
+}
+
+.active-menu {
+  left: 0;
+}
+
+.active-logo-btn {
+  color: white;
+}
+
+.menu-animation {
+  transition: 700ms left cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.color-animation {
+  transition: 450ms color ease-in-out;
+}
+
+.inputs-border {
+  border: solid 1px #c8c8c8;
 }

@@ -1,39 +1,12 @@
 import React from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../firebse";
 
 export default function Signup() {
-  const auth = getAuth(app);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("handle submit");
-    const email = document.forms.signup.email.value;
-    const password = document.forms.signup.password.value;
-
-    document.forms.signup.reset();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(auth);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error({ errorCode });
-        console.error({ errorMessage });
-        console.log(auth.currentUser);
-        // ..
-      });
-  }
   return (
     <div className="max-w-lg m-auto">
       <h2 className="font-medium text-5xl md:text-7xl text-center mb-4">
         Sign up
       </h2>
-      <form name="signup" onSubmit={handleSubmit}>
+      <form name="signup">
         <div className="mb-6">
           <label
             htmlFor="email"

@@ -5,14 +5,27 @@ import ExpenseTotal from "./components/ExpenseTotal";
 import ExpenseList from "./components/ExpenseList";
 import AddExpenseForm from "./components/AddExpenseForm";
 import { AppProvider } from "./contex/AppContext";
+import { Routes, Route, Link } from "react-router-dom";
 
-function App() {
+import Signup from "./components/Signup";
+import Navbar from "./components/Navbar";
+
+export default function App() {
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="signup" element={<Signup />} />
+      </Routes>
+    </>
+  );
+}
+
+function Home() {
   return (
     <AppProvider>
       <div className="container mx-auto p-4">
-        <h1 className="font-medium text-5xl md:text-7xl text-center">
-          Budget App
-        </h1>
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
           <Budget />
           <Remaining />
@@ -24,5 +37,3 @@ function App() {
     </AppProvider>
   );
 }
-
-export default App;

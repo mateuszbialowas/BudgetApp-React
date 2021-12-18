@@ -1,13 +1,15 @@
 @import "./reset.css";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 body {
   font-family: "Inter", sans-serif;
 }
 
-table tbody tr:nth-child(2n+1) {
-    background-color: white;
+table tbody tr:nth-child(2n + 1) {
+  background-color: white;
 }

@@ -1,24 +1,22 @@
 import React, { useState } from "react";
-import { useUserAuth } from "../context/UserAuthContext";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { render } from "@testing-library/react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUserAuth } from "../context/UserAuthContext";
 
-export default function Signup() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { signUp } = useUserAuth();
+  const { logIn } = useUserAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     setError("");
     e.preventDefault();
-    const signUpToast = toast.loading("Signing up...");
+    const signUpToast = toast.loading("Logging in...");
     try {
-      await signUp(email, password);
+      await logIn(email, password);
       toast.update(signUpToast, {
-        render: "Sign up successful!",
+        render: "Log in successful!",
         type: "success",
         isLoading: false,
         autoClose: 5000,
@@ -26,7 +24,7 @@ export default function Signup() {
         closeOnClick: true,
         pauseOnFocusLoss: false,
       });
-      navigate("/login");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
       toast.update(signUpToast, {
@@ -40,10 +38,11 @@ export default function Signup() {
       });
     }
   };
+
   return (
     <div className=" px-3 max-w-lg m-auto">
       <h2 className="font-medium text-5xl md:text-7xl text-center mb-4">
-        Sign up
+        Log in
       </h2>
       <form className="flex flex-col" name="signup" onSubmit={handleSubmit}>
         <div className="mb-6">
@@ -81,13 +80,13 @@ export default function Signup() {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 "
         >
-          Sign up
+          Log in
         </button>
       </form>
       <div className="text-center mt-3">
-        Already have an account?{" "}
-        <Link className="text-blue-700 font-bold underline" to="/login">
-          Log in
+        Do not have an account?{" "}
+        <Link className="text-blue-700 font-bold underline" to="/signup">
+          Sign up
         </Link>
       </div>
     </div>

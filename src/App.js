@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 
 import Signup from "./components/Signup";
 import Navbar from "./components/Navbar";
+import Login from "./components/Login";
 
 export default function App() {
   return (
@@ -20,7 +21,9 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         </Routes>
       </UserAuthContextProvider>
     </>

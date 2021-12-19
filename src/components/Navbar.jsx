@@ -49,7 +49,7 @@ export default function Navbar() {
               <>
                 <Link to="#">Log out</Link>
                 <Link
-                  to="#"
+                  to="/dashboard"
                   className="px-5 py-4
         bg-blue-light text-white rounded-lg font-medium shadow-md
         hover:shadow-lg"
@@ -59,7 +59,7 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link to="#">Log in</Link>
+                <Link to="/login">Log in</Link>
                 <Link
                   to="/signup"
                   className="px-5 py-4
@@ -128,7 +128,7 @@ export default function Navbar() {
                   Log out
                 </Link>
                 <Link
-                  to="#"
+                  to="/dashboard"
                   className="px-5 py-4
         bg-blue-light text-white rounded-lg font-bold shadow-md
         hover:shadow-lg text-center"
@@ -141,7 +141,7 @@ export default function Navbar() {
                 <Link
                   className="text-xl
                       text-white"
-                  to="#"
+                  to="/login"
                 >
                   Log in
                 </Link>

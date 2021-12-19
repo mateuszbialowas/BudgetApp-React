@@ -20,17 +20,17 @@ export default function App() {
       <UserAuthContextProvider>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<h1>Home BudgetApp</h1>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </UserAuthContextProvider>
     </>
   );
 }
 
-function Home() {
+function Dashboard() {
   return (
     <AppProvider>
       <div className="container mx-auto p-4">

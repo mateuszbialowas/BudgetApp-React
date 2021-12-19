@@ -4,8 +4,10 @@ import Remaining from "./components/Remaining";
 import ExpenseTotal from "./components/ExpenseTotal";
 import ExpenseList from "./components/ExpenseList";
 import AddExpenseForm from "./components/AddExpenseForm";
-import { AppProvider } from "./contex/AppContext";
+import { AppProvider } from "./context/AppContext";
 import { Routes, Route } from "react-router-dom";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
+import { ToastContainer } from "react-toastify";
 
 import Signup from "./components/Signup";
 import Navbar from "./components/Navbar";
@@ -13,11 +15,14 @@ import Navbar from "./components/Navbar";
 export default function App() {
   return (
     <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="signup" element={<Signup />} />
-      </Routes>
+      <ToastContainer />
+      <UserAuthContextProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="signup" element={<Signup />} />
+        </Routes>
+      </UserAuthContextProvider>
     </>
   );
 }

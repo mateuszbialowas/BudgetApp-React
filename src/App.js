@@ -1,13 +1,9 @@
 import "./App.css";
-import Budget from "./components/Budget";
-import Remaining from "./components/Remaining";
-import ExpenseTotal from "./components/ExpenseTotal";
-import ExpenseList from "./components/ExpenseList";
-import AddExpenseForm from "./components/AddExpenseForm";
-import { AppProvider } from "./context/AppContext";
+
 import { Routes, Route } from "react-router-dom";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import { ToastContainer } from "react-toastify";
+import Dashboard from "./components/Dashboard";
 
 import Signup from "./components/Signup";
 import Navbar from "./components/Navbar";
@@ -39,21 +35,5 @@ export default function App() {
         </Routes>
       </UserAuthContextProvider>
     </>
-  );
-}
-
-function Dashboard() {
-  return (
-    <AppProvider>
-      <div className="container mx-auto p-4">
-        <div className="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <Budget />
-          <Remaining />
-          <ExpenseTotal />
-        </div>
-        <ExpenseList />
-        <AddExpenseForm />
-      </div>
-    </AppProvider>
   );
 }

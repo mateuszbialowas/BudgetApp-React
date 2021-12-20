@@ -7,7 +7,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-
+import { writeUserData } from "../database";
+import { toast } from "react-toastify";
 import { auth } from "../firebse";
 
 const userAuthContext = createContext();
@@ -15,7 +16,21 @@ const userAuthContext = createContext();
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState();
   function signUp(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then((UserCredential) => {
+        const user = UserCredential.user;
+        writeUserData(
+          user.uid,
+          user.displayName || user.email,
+          user.email,
+          user.photoURL,
+          UserCredential.providerId || "createdUserWithEmailAndPassword"
+        );
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        logOut();
+      });
   }
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -25,11 +40,24 @@ export function UserAuthContextProvider({ children }) {
   }
   function googleSignIn() {
     const provider = new GoogleAuthProvider();
-    // select account in popup
     provider.setCustomParameters({
       prompt: "select_account",
     });
-    return signInWithPopup(auth, provider);
+    return signInWithPopup(auth, provider)
+      .then((UserCredential) => {
+        const user = UserCredential.user;
+        writeUserData(
+          user.uid,
+          user.displayName || user.email,
+          user.email,
+          user.photoURL,
+          UserCredential.providerId
+        );
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        logOut();
+      });
   }
 
   useEffect(() => {

@@ -1,8 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
+import { useUserAuth } from "../context/UserAuthContext";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
+  let { user, logOut } = useUserAuth();
+  const navigate = useNavigate();
   function toggleMenu() {
     const menu_button = document.getElementById("mobile-menu-button");
     const mobile_menu = document.getElementById("mobile-menu");
@@ -12,6 +16,32 @@ export default function Navbar() {
     logo.classList.toggle("active-logo-btn");
     menu_button.classList.toggle("active-logo-btn");
   }
+  const handleLogout = async () => {
+    const logOutToast = toast.loading("Logging out...");
+    try {
+      await logOut();
+      navigate("/");
+      toast.update(logOutToast, {
+        render: "Log out successful!",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnFocusLoss: false,
+      });
+    } catch (err) {
+      toast.update(logOutToast, {
+        render: `${err.message}`,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnFocusLoss: false,
+      });
+    }
+  };
   return (
     <nav className="py-4 mb-5 shadow-lg relative">
       <div className="max-w-7xl mx-auto">
@@ -45,9 +75,11 @@ export default function Navbar() {
             </li>
           </ul>
           <div className="hidden lg:block space-x-4">
-            {false ? (
+            {user ? (
               <>
-                <Link to="#">Log out</Link>
+                <button className="p-4" onClick={handleLogout}>
+                  Log out
+                </button>
                 <Link
                   to="/dashboard"
                   className="px-5 py-4
@@ -118,15 +150,16 @@ export default function Navbar() {
                 Blog
               </Link>
             </li>
-            {true ? (
+            {user ? (
               <>
-                <Link
+                <button
                   className="text-xl
-                      text-white"
-                  to="#"
+                      text-white
+                      text-left"
+                  onClick={handleLogout}
                 >
                   Log out
-                </Link>
+                </button>
                 <Link
                   to="/dashboard"
                   className="px-5 py-4

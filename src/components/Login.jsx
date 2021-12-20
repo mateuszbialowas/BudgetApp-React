@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { auth } from "../firebse";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { logIn } = useUserAuth();
+  const { logIn, googleSignIn } = useUserAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     setError("");
@@ -19,10 +22,41 @@ export default function Login() {
         render: "Log in successful!",
         type: "success",
         isLoading: false,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnFocusLoss: false,
+        pauseOnHover: false,
+      });
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+      toast.update(signUpToast, {
+        render: `${err.message}`,
+        type: "error",
+        isLoading: false,
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnFocusLoss: false,
+      });
+    }
+  };
+
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    const signUpToast = toast.loading("Logging in...");
+    try {
+      await googleSignIn();
+      toast.update(signUpToast, {
+        render: "Log in successful!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnFocusLoss: false,
+        pauseOnHover: false,
       });
       navigate("/dashboard");
     } catch (err) {
@@ -83,6 +117,23 @@ export default function Login() {
           Log in
         </button>
       </form>
+      <hr className="mt-4" />
+
+      <div className="flex justify-center mt-4">
+        <button
+          type="submit"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 "
+          onClick={handleGoogleSignIn}
+        >
+          <FontAwesomeIcon
+            icon={faGoogle}
+            size="lg"
+            className="fab fa-google mr-2"
+          ></FontAwesomeIcon>
+          Log in with Google
+        </button>
+      </div>
+
       <div className="text-center mt-3">
         Do not have an account?{" "}
         <Link className="text-blue-700 font-bold underline" to="/signup">

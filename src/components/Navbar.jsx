@@ -25,10 +25,11 @@ export default function Navbar() {
         render: "Log out successful!",
         type: "success",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnFocusLoss: false,
+        pauseOnHover: false,
       });
     } catch (err) {
       toast.update(logOutToast, {

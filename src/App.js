@@ -17,7 +17,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 export default function App() {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={3000}
+        pauseOnFocusLoss={false}
+        position="bottom-right"
+      />
       <UserAuthContextProvider>
         <Navbar />
         <Routes>

@@ -5,7 +5,7 @@ import ExpenseTotal from "./ExpenseTotal";
 import ExpenseList from "./ExpenseList";
 import AddExpenseForm from "./AddExpenseForm";
 import { AppProvider } from "../context/AppContext";
-import { writeUserData, clearDatabase } from "../database";
+import { clearDatabase } from "../database";
 
 export default function Dashboard() {
   return (
@@ -19,16 +19,7 @@ export default function Dashboard() {
         <ExpenseList />
         <AddExpenseForm />
       </div>
-      <button
-        className="bg-red-500 border"
-        onClick={() => writeUserData(12313, "name", "email", "www.testurl.com")}
-      >
-        Test firebase write data
-      </button>
-      <button
-        className="bg-blue-500 border"
-        onClick={() => clearDatabase()}
-      >
+      <button className="bg-blue-500 border" onClick={() => clearDatabase()}>
         Delete database
       </button>
     </AppProvider>

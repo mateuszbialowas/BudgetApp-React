@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { auth } from "../firebse";
 
 export default function Login() {
   const [email, setEmail] = useState("");

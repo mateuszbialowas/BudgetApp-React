@@ -3,7 +3,6 @@ import { ref, set, child, get, onValue, push } from "firebase/database";
 import { database } from "../firebse";
 import { toast } from "react-toastify";
 import { useUserAuth } from "./UserAuthContext";
-import { data } from "autoprefixer";
 
 export const AppContext = createContext();
 
@@ -47,13 +46,22 @@ export const AppProvider = ({ children }) => {
         .then((snapshot) => {
           if (snapshot.exists()) {
             dispatch({ type: "SET_BUDGET", payload: snapshot.val() });
-            console.log("AppProvider: useEffect: SET_BUDGET");
-          } else
-            console.log("AppProvider: useEffect: No budget found for user");
+          } else {
+            set(child(dbRef, "users/" + user.uid + "/budget"), 1500)
+              .then(() => {
+                dispatch({ type: "SET_BUDGET", payload: 1500 });
+              })
+              .catch((error) => {
+                console.log(
+                  "AppProvider: useEffect: SET_BUDGET: Error: " + error
+                );
+              });
+          }
         })
         .catch((error) => {
-          console.log("AppProvider: useEffect: Error getting budget");
-          console.info(error);
+          console.log(
+            "AppProvider: useEffect: GET_BUDGET: Error: " + error
+          );
         });
     }
   }, [user]);

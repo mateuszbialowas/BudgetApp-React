@@ -1,4 +1,11 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
+import { ref, set, child, get, onValue, push } from "firebase/database";
+import { database } from "../firebse";
+import { toast } from "react-toastify";
+import { useUserAuth } from "./UserAuthContext";
+import { data } from "autoprefixer";
+
+export const AppContext = createContext();
 
 const AppReducer = (state, action) => {
   switch (action.type) {
@@ -14,25 +21,42 @@ const AppReducer = (state, action) => {
           (expense) => expense.id !== action.payload
         ),
       };
+    case "SET_BUDGET":
+      return {
+        ...state,
+        budget: action.payload,
+      };
     default:
       return state;
   }
 };
 
 const initialState = {
-  budget: 20000,
-  expenses: [
-    { id: 12, name: "shopping", cost: 40 },
-    { id: 13, name: "holiday", cost: 50 },
-    // { id: 14, name: "shopping", cost: 40 },
-    // { id: 15, name: "shopping", cost: 40 },
-  ],
+  budget: 0,
+  expenses: [],
 };
 
-export const AppContext = createContext();
-
-export const AppProvider = (props) => {
+export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  let { user } = useUserAuth();
+
+  useEffect(() => {
+    if (user) {
+      const dbRef = ref(database);
+      get(child(dbRef, "users/" + user.uid + "/budget"))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            dispatch({ type: "SET_BUDGET", payload: snapshot.val() });
+            console.log("AppProvider: useEffect: SET_BUDGET");
+          } else
+            console.log("AppProvider: useEffect: No budget found for user");
+        })
+        .catch((error) => {
+          console.log("AppProvider: useEffect: Error getting budget");
+          console.info(error);
+        });
+    }
+  }, [user]);
 
   return (
     <AppContext.Provider
@@ -42,7 +66,7 @@ export const AppProvider = (props) => {
         dispatch,
       }}
     >
-      {props.children}
+      {children}
     </AppContext.Provider>
   );
 };

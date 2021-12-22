@@ -2,33 +2,30 @@ import React, { useState } from "react";
 import { useUserAuth } from "../context/UserAuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { render } from "@testing-library/react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const { signUp } = useUserAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    setError("");
     e.preventDefault();
     const signUpToast = toast.loading("Signing up...");
     try {
-      await signUp(email, password);
-      toast.update(signUpToast, {
-        render: "Sign up successful!",
-        type: "success",
-        isLoading: false,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
+      await signUp(email, password).then(() => {
+        toast.update(signUpToast, {
+          render: "Sign up successful!",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
+        navigate("/login");
       });
-      navigate("/login");
     } catch (err) {
-      setError(err.message);
       toast.update(signUpToast, {
         render: `${err.message}`,
         type: "error",

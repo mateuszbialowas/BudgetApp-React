@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { AppProvider } from "./context/AppContext";
 
 export default function App() {
   return (
@@ -28,7 +29,9 @@ export default function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <AppProvider>
+                  <Dashboard />
+                </AppProvider>
               </ProtectedRoute>
             }
           />

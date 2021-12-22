@@ -8,28 +8,25 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const { logIn, googleSignIn } = useUserAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    setError("");
     e.preventDefault();
     const signUpToast = toast.loading("Logging in...");
     try {
-      await logIn(email, password);
-      toast.update(signUpToast, {
-        render: "Log in successful!",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
-        pauseOnHover: false,
+      await logIn(email, password).then(() => {
+        toast.update(signUpToast, {
+          render: "Logged in!",
+          type: "success",
+          autoClose: 2000,
+          isLoading: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
+        navigate("/dashboard");
       });
-      navigate("/dashboard");
     } catch (err) {
-      setError(err.message);
       toast.update(signUpToast, {
         render: `${err.message}`,
         type: "error",
@@ -46,20 +43,20 @@ export default function Login() {
     e.preventDefault();
     const signUpToast = toast.loading("Logging in...");
     try {
-      await googleSignIn();
-      toast.update(signUpToast, {
-        render: "Log in successful!",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
-        pauseOnHover: false,
+      await googleSignIn().then(() => {
+        toast.update(signUpToast, {
+          render: "Log in successful!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+          pauseOnHover: false,
+        });
+        navigate("/dashboard");
       });
-      navigate("/dashboard");
     } catch (err) {
-      setError(err.message);
       toast.update(signUpToast, {
         render: `${err.message}`,
         type: "error",

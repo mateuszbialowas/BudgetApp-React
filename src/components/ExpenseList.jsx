@@ -29,14 +29,26 @@ export default function ExpenseList() {
             </tr>
           </thead>
           <tbody>
-            {expenses.map((expense) => (
-              <ExpenseItem
-                key={expense.id}
-                id={expense.id}
-                name={expense.name}
-                cost={expense.cost}
-              ></ExpenseItem>
-            ))}
+            {expenses.length > 0 ? (
+              expenses.map((expense) => (
+                <ExpenseItem
+                  key={expense.id}
+                  id={expense.id}
+                  name={expense.name}
+                  cost={expense.cost}
+                ></ExpenseItem>
+              ))
+            ) : (
+              <tr>
+                <td className="border-t border-gray-200" colSpan="3">
+                  <div className="flex justify-center">
+                    <div className="text-center">
+                      <p className="text-gray-500 text-sm">No expenses yet.</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

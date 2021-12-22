@@ -9,7 +9,8 @@ import {
 } from "firebase/auth";
 import { writeUserData } from "../database";
 import { toast } from "react-toastify";
-import { auth } from "../firebse";
+import { auth, database } from "../firebse";
+import { ref, child, get } from "firebase/database";
 
 const userAuthContext = createContext();
 
@@ -46,13 +47,18 @@ export function UserAuthContextProvider({ children }) {
     return signInWithPopup(auth, provider)
       .then((UserCredential) => {
         const user = UserCredential.user;
-        writeUserData(
-          user.uid,
-          user.displayName || user.email,
-          user.email,
-          user.photoURL,
-          UserCredential.providerId
-        );
+        const dbRef = ref(database);
+        get(child(dbRef, "users/" + user.uid)).then((snapshot) => {
+          if (!snapshot.exists()) {
+            writeUserData(
+              user.uid,
+              user.displayName || user.email,
+              user.email,
+              user.photoURL,
+              UserCredential.providerId || "googleSignIn"
+            );
+          }
+        });
       })
       .catch((error) => {
         toast.error(error.message);

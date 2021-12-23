@@ -20,7 +20,11 @@ export function UserAuthContextProvider({ children }) {
   const navigate = useNavigate();
 
   function signUp(email, password) {
-    const firebaseCreateUser = createUserWithEmailAndPassword(auth, email, password);
+    const firebaseCreateUser = createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     toast.promise(firebaseCreateUser, {
       pending: "Signing up...",
       success: {
@@ -45,33 +49,25 @@ export function UserAuthContextProvider({ children }) {
     });
     return firebaseCreateUser;
   }
-  
+
   function logIn(email, password) {
-    const loginToast = toast.loading("Logging in...");
-    return signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        toast.update(loginToast, {
-          render: "Log in successful!",
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-        });
-        navigate("/dashboard");
-      })
-      .catch((err) => {
-        toast.update(loginToast, {
-          render: `${err.message}`,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-        });
-      });
+    const firebaseLogIn = signInWithEmailAndPassword(auth, email, password);
+    toast.promise(firebaseLogIn, {
+      pending: "Logging in...",
+      success: {
+        render({ data }) {
+          navigate("/dashboard");
+          return "Logged in successfully!";
+        },
+      },
+      error: {
+        render({ data }) {
+          return `Error: ${data.code}`;
+        },
+      },
+    });
+
+    return firebaseLogIn;
   }
 
   function logOut() {

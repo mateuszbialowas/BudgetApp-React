@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
@@ -9,64 +8,15 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { logIn, googleSignIn } = useUserAuth();
-  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const signUpToast = toast.loading("Logging in...");
-    try {
-      await logIn(email, password).then(() => {
-        toast.update(signUpToast, {
-          render: "Logged in!",
-          type: "success",
-          autoClose: 2000,
-          isLoading: false,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-        });
-        navigate("/dashboard");
-      });
-    } catch (err) {
-      toast.update(signUpToast, {
-        render: `${err.message}`,
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
-      });
-    }
+    await logIn(email, password);
   };
 
   const handleGoogleSignIn = async (e) => {
     e.preventDefault();
-    const signUpToast = toast.loading("Logging in...");
-    try {
-      await googleSignIn().then(() => {
-        toast.update(signUpToast, {
-          render: "Log in successful!",
-          type: "success",
-          isLoading: false,
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-          pauseOnHover: false,
-        });
-        navigate("/dashboard");
-      });
-    } catch (err) {
-      toast.update(signUpToast, {
-        render: `${err.message}`,
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
-      });
-    }
+    await googleSignIn();
   };
 
   return (

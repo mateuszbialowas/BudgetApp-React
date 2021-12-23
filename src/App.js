@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./components/Dashboard";
+import "react-toastify/dist/ReactToastify.css";
 
 import Signup from "./components/Signup";
 import Navbar from "./components/Navbar";

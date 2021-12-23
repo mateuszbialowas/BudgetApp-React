@@ -11,12 +11,16 @@ import { writeUserData } from "../database";
 import { toast } from "react-toastify";
 import { auth, database } from "../firebse";
 import { ref, child, get } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState();
+  const navigate = useNavigate();
+
   function signUp(email, password) {
+    const signUpToast = toast.loading("Signing up...");
     return createUserWithEmailAndPassword(auth, email, password)
       .then((UserCredential) => {
         const user = UserCredential.user;
@@ -27,14 +31,55 @@ export function UserAuthContextProvider({ children }) {
           user.photoURL,
           UserCredential.providerId || "createdUserWithEmailAndPassword"
         );
+        toast.update(signUpToast, {
+          render: "Sign up successful!",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
+        navigate("/login");
       })
-      .catch((error) => {
-        toast.error(error.message);
-        logOut();
+      .catch((err) => {
+        toast.update(signUpToast, {
+          render: `${err.message}`,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
       });
   }
   function logIn(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+    const loginToast = toast.loading("Logging in...");
+    return signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        toast.update(loginToast, {
+          render: "Log in successful!",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        toast.update(loginToast, {
+          render: `${err.message}`,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
+      });
   }
   function logOut() {
     return signOut(auth);
@@ -44,9 +89,20 @@ export function UserAuthContextProvider({ children }) {
     provider.setCustomParameters({
       prompt: "select_account",
     });
+    const signUpToast = toast.loading("Logging in...");
     return signInWithPopup(auth, provider)
       .then((UserCredential) => {
         const user = UserCredential.user;
+        toast.update(signUpToast, {
+          render: "Log in successful!",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
+        navigate("/dashboard");
         const dbRef = ref(database);
         get(child(dbRef, "users/" + user.uid)).then((snapshot) => {
           if (!snapshot.exists()) {
@@ -60,9 +116,16 @@ export function UserAuthContextProvider({ children }) {
           }
         });
       })
-      .catch((error) => {
-        toast.error(error.message);
-        logOut();
+      .catch((err) => {
+        toast.update(signUpToast, {
+          render: `${err.message}`,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnFocusLoss: false,
+        });
       });
   }
 

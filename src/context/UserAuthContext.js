@@ -20,40 +20,32 @@ export function UserAuthContextProvider({ children }) {
   const navigate = useNavigate();
 
   function signUp(email, password) {
-    const signUpToast = toast.loading("Signing up...");
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((UserCredential) => {
-        const user = UserCredential.user;
-        writeUserData(
-          user.uid,
-          user.displayName || user.email,
-          user.email,
-          user.photoURL,
-          UserCredential.providerId || "createdUserWithEmailAndPassword"
-        );
-        toast.update(signUpToast, {
-          render: "Sign up successful!",
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-        });
-        navigate("/login");
-      })
-      .catch((err) => {
-        toast.update(signUpToast, {
-          render: `${err.message}`,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-        });
-      });
+    const firebaseCreateUser = createUserWithEmailAndPassword(auth, email, password);
+    toast.promise(firebaseCreateUser, {
+      pending: "Signing up...",
+      success: {
+        render({ data }) {
+          const user = data.user;
+          writeUserData(
+            user.uid,
+            user.displayName || user.email,
+            user.email,
+            user.photoURL,
+            data.providerId || "createdUserWithEmailAndPassword"
+          );
+          navigate("/dashboard");
+          return "Signed up successfully!";
+        },
+      },
+      error: {
+        render({ data }) {
+          return `Error: ${data.code}`;
+        },
+      },
+    });
+    return firebaseCreateUser;
   }
+  
   function logIn(email, password) {
     const loginToast = toast.loading("Logging in...");
     return signInWithEmailAndPassword(auth, email, password)
@@ -81,6 +73,7 @@ export function UserAuthContextProvider({ children }) {
         });
       });
   }
+
   function logOut() {
     return signOut(auth);
   }

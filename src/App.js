@@ -16,8 +16,6 @@ export default function App() {
   return (
     <>
       <ToastContainer
-        autoClose={3000}
-        pauseOnFocusLoss={false}
         position="bottom-right"
       />
       <UserAuthContextProvider>

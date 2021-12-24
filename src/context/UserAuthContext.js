@@ -9,8 +9,7 @@ import {
 } from "firebase/auth";
 import { writeUserData, checkIfUserExists } from "../database";
 import { toast } from "react-toastify";
-import { auth, database } from "../firebse";
-import { ref, child, get } from "firebase/database";
+import { auth } from "../firebse";
 import { useNavigate } from "react-router-dom";
 
 const userAuthContext = createContext();
@@ -72,7 +71,7 @@ export function UserAuthContextProvider({ children }) {
   function logOut() {
     return signOut(auth);
   }
-  
+
   function googleSignIn() {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
@@ -111,6 +110,7 @@ export function UserAuthContextProvider({ children }) {
       setUser(currentUser);
     });
     return () => {
+      console.warn("unsubscribe");
       unsubscribe();
     };
   }, []);

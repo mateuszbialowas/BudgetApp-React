@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { writeUserData } from "../database";
+import { writeUserData, checkIfUserExists } from "../database";
 import { toast } from "react-toastify";
 import { auth, database } from "../firebse";
 import { ref, child, get } from "firebase/database";
@@ -29,13 +29,12 @@ export function UserAuthContextProvider({ children }) {
       pending: "Signing up...",
       success: {
         render({ data }) {
-          const user = data.user;
           writeUserData(
-            user.uid,
-            user.displayName || user.email,
-            user.email,
-            user.photoURL,
-            data.providerId || "createdUserWithEmailAndPassword"
+            data.user.uid,
+            data.user.displayName || data.user.email,
+            data.user.email,
+            data.user.photoURL,
+            data.providerId || "created_by_email"
           );
           navigate("/dashboard");
           return "Signed up successfully!";
@@ -73,49 +72,38 @@ export function UserAuthContextProvider({ children }) {
   function logOut() {
     return signOut(auth);
   }
+  
   function googleSignIn() {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
       prompt: "select_account",
     });
-    const signUpToast = toast.loading("Logging in...");
-    return signInWithPopup(auth, provider)
-      .then((UserCredential) => {
-        const user = UserCredential.user;
-        toast.update(signUpToast, {
-          render: "Log in successful!",
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-        });
-        navigate("/dashboard");
-        const dbRef = ref(database);
-        get(child(dbRef, "users/" + user.uid)).then((snapshot) => {
-          if (!snapshot.exists()) {
+    const firebaseGoogleSignIn = signInWithPopup(auth, provider);
+    toast.promise(firebaseGoogleSignIn, {
+      pending: "Logging in...",
+      success: {
+        render({ data }) {
+          navigate("/dashboard");
+          if (!checkIfUserExists(data.user.uid)) {
             writeUserData(
-              user.uid,
-              user.displayName || user.email,
-              user.email,
-              user.photoURL,
-              UserCredential.providerId || "googleSignIn"
+              data.user.uid,
+              data.user.displayName || data.user.email,
+              data.user.email,
+              data.user.photoURL,
+              data.providerId || "googleSignIn"
             );
           }
-        });
-      })
-      .catch((err) => {
-        toast.update(signUpToast, {
-          render: `${err.message}`,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnFocusLoss: false,
-        });
-      });
+          return "Logged in successfully!";
+        },
+      },
+      error: {
+        render({ data }) {
+          return `Error: ${data.code}`;
+        },
+      },
+    });
+
+    return firebaseGoogleSignIn;
   }
 
   useEffect(() => {

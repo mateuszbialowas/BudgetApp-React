@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../../context/AppContext";
 
 export default function ExpenseItem(props) {
   const { dispatch } = useContext(AppContext);

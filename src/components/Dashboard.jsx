@@ -1,9 +1,9 @@
 import React from "react";
-import Budget from "./Budget";
-import Remaining from "./Remaining";
-import ExpenseTotal from "./ExpenseTotal";
-import ExpenseList from "./ExpenseList";
-import AddExpenseForm from "./AddExpenseForm";
+import Budget from "./budgetApp/Budget";
+import Remaining from "./budgetApp/Remaining";
+import ExpenseTotal from "./budgetApp/ExpenseTotal";
+import ExpenseList from "./budgetApp/ExpenseList";
+import AddExpenseForm from "./budgetApp/AddExpenseForm";
 import { AppProvider } from "../context/AppContext";
 import { clearDatabase } from "../database";
 

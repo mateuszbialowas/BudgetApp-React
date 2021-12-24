@@ -1,19 +1,28 @@
 import React, { useState } from "react";
-import { useUserAuth } from "../context/UserAuthContext";
 import { Link } from "react-router-dom";
+import { useUserAuth } from "../../context/UserAuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-export default function Signup() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signUp } = useUserAuth();
+  const { logIn, googleSignIn } = useUserAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signUp(email, password);
+    await logIn(email, password);
   };
+
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    await googleSignIn();
+  };
+
   return (
     <div className=" px-3 max-w-lg m-auto">
       <h2 className="font-medium text-5xl md:text-7xl text-center mb-4">
-        Sign up
+        Log in
       </h2>
       <form className="flex flex-col" name="signup" onSubmit={handleSubmit}>
         <div className="mb-6">
@@ -51,13 +60,30 @@ export default function Signup() {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 "
         >
-          Sign up
+          Log in
         </button>
       </form>
+      <hr className="mt-4" />
+
+      <div className="flex justify-center mt-4">
+        <button
+          type="submit"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-auto sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 "
+          onClick={handleGoogleSignIn}
+        >
+          <FontAwesomeIcon
+            icon={faGoogle}
+            size="lg"
+            className="fab fa-google mr-2"
+          ></FontAwesomeIcon>
+          Log in with Google
+        </button>
+      </div>
+
       <div className="text-center mt-3">
-        Already have an account?{" "}
-        <Link className="text-blue-700 font-bold underline" to="/login">
-          Log in
+        Do not have an account?{" "}
+        <Link className="text-blue-700 font-bold underline" to="/signup">
+          Sign up
         </Link>
       </div>
     </div>

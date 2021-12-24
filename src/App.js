@@ -6,9 +6,9 @@ import { ToastContainer } from "react-toastify";
 import Dashboard from "./components/Dashboard";
 import "react-toastify/dist/ReactToastify.css";
 
-import Signup from "./components/Signup";
+import Signup from "./components/authentication/Signup";
 import Navbar from "./components/Navbar";
-import Login from "./components/Login";
+import Login from "./components/authentication/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AppProvider } from "./context/AppContext";
 

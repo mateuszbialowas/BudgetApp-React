@@ -3,6 +3,7 @@ import { ref, set, child, get, onValue, push } from "firebase/database";
 import { database } from "../firebse";
 import { toast } from "react-toastify";
 import { useUserAuth } from "./UserAuthContext";
+import { getBudgetFromUser } from "../database";
 
 export const AppContext = createContext();
 
@@ -25,6 +26,11 @@ const AppReducer = (state, action) => {
         ...state,
         budget: action.payload,
       };
+    case "SET_LOADING":
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
     default:
       return state;
   }
@@ -32,7 +38,11 @@ const AppReducer = (state, action) => {
 
 const initialState = {
   budget: 0,
-  expenses: [],
+  expenses: [
+    { id: 12, name: "shopping", cost: 40 },
+    { id: 13, name: "holiday", cost: 50 },
+  ],
+  isLoading: false,
 };
 
 export const AppProvider = ({ children }) => {
@@ -40,63 +50,33 @@ export const AppProvider = ({ children }) => {
   const { user } = useUserAuth();
 
   useEffect(() => {
-    if (user) {
-      const fetchBudgetToast = toast.loading("Fetching budget...");
-      console.log("Budget fetching...");
-      const dbRef = ref(database);
-      get(child(dbRef, "users/" + user.uid + "/budget"))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            dispatch({ type: "SET_BUDGET", payload: snapshot.val() });
-            toast.update(fetchBudgetToast, {
-              render: "Budget fetched!",
-              type: "success",
-              isLoading: false,
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnFocusLoss: false,
-            });
-          } else {
-            set(child(dbRef, "users/" + user.uid + "/budget"), 1500)
-              .then(() => {
-                dispatch({ type: "SET_BUDGET", payload: 1500 });
-                toast.update(fetchBudgetToast, {
-                  render: "Set default budget to $1500",
-                  type: "success",
-                  isLoading: false,
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnFocusLoss: false,
-                });
-              })
-              .catch((error) => {
-                console.log(
-                  "AppProvider: useEffect: SET_BUDGET: Error: " + error
-                );
-              });
-          }
-        })
-        .catch((error) => {
-          console.log("AppProvider: useEffect: GET_BUDGET: Error: " + error);
-          toast.update(fetchBudgetToast, {
-            render: "Error fetching budget!",
-            type: "error",
-            isLoading: false,
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnFocusLoss: false,
-          });
-        });
-    }
+    dispatch({ type: "SET_LOADING", payload: true });
+    getBudgetFromUser(user.uid)
+      .then((budget) => {
+        dispatch({ type: "SET_BUDGET", payload: budget });
+      })
+      .then(() => {
+        dispatch({ type: "SET_LOADING", payload: false });
+      });
   }, [user]);
+
+  useEffect(() => {
+    if (state.isLoading) {
+      toast.loading("Loading data... Please wait", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+      });
+    } else {
+      toast.dismiss();
+    }
+  }, [state.isLoading]);
+
   return (
     <AppContext.Provider
       value={{
         budget: state.budget,
         expenses: state.expenses,
+        isLoading: state.isLoading,
         dispatch,
       }}
     >

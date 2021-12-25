@@ -69,7 +69,22 @@ export function UserAuthContextProvider({ children }) {
   }
 
   function logOut() {
-    return signOut(auth);
+    navigate("/");
+    const firebaseSignOut = signOut(auth);
+    toast.promise(firebaseSignOut, {
+      pending: "Logging out...",
+      success: {
+        render({ data }) {
+          return "Logged out successfully!";
+        },
+      },
+      error: {
+        render({ data }) {
+          return `Error: ${data.code}`;
+        },
+      },
+    });
+    return firebaseSignOut;
   }
 
   function googleSignIn() {

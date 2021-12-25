@@ -1,12 +1,10 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import { useUserAuth } from "../context/UserAuthContext";
-import { toast } from "react-toastify";
 
 export default function Navbar() {
   let { user, logOut } = useUserAuth();
-  const navigate = useNavigate();
   function toggleMenu() {
     const menu_button = document.getElementById("mobile-menu-button");
     const mobile_menu = document.getElementById("mobile-menu");
@@ -17,31 +15,9 @@ export default function Navbar() {
     menu_button.classList.toggle("active-logo-btn");
   }
   const handleLogout = async () => {
-    const logOutToast = toast.loading("Logging out...");
     try {
       await logOut();
-      navigate("/");
-      toast.update(logOutToast, {
-        render: "Log out successful!",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
-        pauseOnHover: false,
-      });
-    } catch (err) {
-      toast.update(logOutToast, {
-        render: `${err.message}`,
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
-      });
-    }
+    } catch (err) {}
   };
   return (
     <nav className="py-4 mb-5 shadow-lg relative">
@@ -189,19 +165,6 @@ export default function Navbar() {
                 </Link>
               </>
             )}
-            {/* <%if user_signed_in? %>
-          <%= link_to 'Sign-out', destroy_user_session_path, method: :delete, className: 'text-xl
-                      text-white'%>
-          <%= link_to 'Go to Dashboard', app_path,
-                      className: 'text-lg text-center py-3 bg-blue-light text-white rounded
-                      font-medium shadow-md hover:shadow-lg'%>
-        <%else %>
-          <%= link_to 'Sign-in', new_user_session_path, className: 'text-xl
-                      text-white'%>
-          <%= link_to 'Try for free', new_user_registration_path,
-                      className: 'text-lg text-center py-3 bg-blue-light text-white rounded
-                      font-medium shadow-md hover:shadow-lg'%>
-        <%end %> */}
           </ul>
         </div>
       </div>

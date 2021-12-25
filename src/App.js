@@ -15,9 +15,7 @@ import { AppProvider } from "./context/AppContext";
 export default function App() {
   return (
     <>
-      <ToastContainer
-        position="bottom-right"
-      />
+      <ToastContainer position="bottom-right" />
       <UserAuthContextProvider>
         <Navbar />
         <Routes>

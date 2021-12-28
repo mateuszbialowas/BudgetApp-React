@@ -13,7 +13,7 @@ export default function ExpenseItem(props) {
     });
   };
 
-  const { id, name, cost } = props;
+  const { name, cost } = props;
   return (
     <tr className="border-b bg-gray-50">
       <td className="px-6 py-4">{name}</td>

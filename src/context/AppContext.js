@@ -1,6 +1,4 @@
 import { createContext, useReducer, useEffect } from "react";
-import { ref, set, child, get, onValue, push } from "firebase/database";
-import { database } from "../firebse";
 import { toast } from "react-toastify";
 import {useUserAuth} from "./UserAuthContext";
 import {getBudgetFromUser, getExpensesFromUser} from "../database";

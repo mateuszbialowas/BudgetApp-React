@@ -37,12 +37,23 @@ export function checkIfUserExists(userId) {
 
 // TODO check how works async try catch await
 export async function getBudgetFromUser(userId) {
-
   try {
     const dbRef = ref(database);
     const snapshot = await get(child(dbRef, "users/" + userId));
     if (snapshot.exists()) {
       return snapshot.val().budget;
+    }
+  } catch (error) {
+    toast.error(error.message);
+  }
+}
+
+export async function getExpensesFromUser(userId) {
+  try {
+    const dbRef = ref(database);
+    const snapshot = await get(child(dbRef, "users/" + userId));
+    if (snapshot.exists()) {
+      return snapshot.val().expenses;
     }
   } catch (error) {
     toast.error(error.message);

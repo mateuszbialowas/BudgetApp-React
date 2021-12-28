@@ -41,7 +41,7 @@ export default function ExpenseList() {
             ) : (
               <tr>
                 <td className="border-t border-gray-200" colSpan="3">
-                  <div className="flex justify-center">
+                  <div className="flex py-3 justify-center">
                     <div className="text-center">
                       <p className="text-gray-500 text-sm">No expenses yet.</p>
                     </div>

@@ -2,8 +2,8 @@ import { createContext, useReducer, useEffect } from "react";
 import { ref, set, child, get, onValue, push } from "firebase/database";
 import { database } from "../firebse";
 import { toast } from "react-toastify";
-import { useUserAuth } from "./UserAuthContext";
-import { getBudgetFromUser } from "../database";
+import {useUserAuth} from "./UserAuthContext";
+import {getBudgetFromUser, getExpensesFromUser} from "../database";
 
 export const AppContext = createContext();
 
@@ -39,8 +39,8 @@ const AppReducer = (state, action) => {
 const initialState = {
   budget: 0,
   expenses: [
-    { id: 12, name: "shopping", cost: 40 },
-    { id: 13, name: "holiday", cost: 50 },
+    // { id: 12, name: "shopping", cost: 40 },
+    // { id: 13, name: "holiday", cost: 50 },
   ],
   isLoading: false,
 };
@@ -50,14 +50,21 @@ export const AppProvider = ({ children }) => {
   const { user } = useUserAuth();
 
   useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: true });
+    dispatch({type: "SET_LOADING", payload: true});
     getBudgetFromUser(user.uid)
-      .then((budget) => {
-        dispatch({ type: "SET_BUDGET", payload: budget });
-      })
-      .then(() => {
-        dispatch({ type: "SET_LOADING", payload: false });
-      });
+        .then((budget) => {
+          dispatch({type: "SET_BUDGET", payload: budget});
+        })
+        .then(() => {
+          getExpensesFromUser(user.uid).then((expenses) => {
+            if (expenses.exist) {
+              dispatch({type: "ADD_EXPENSE", payload: expenses});
+            }
+          });
+        })
+        .then(() => {
+          dispatch({type: "SET_LOADING", payload: false});
+        });
   }, [user]);
 
   useEffect(() => {

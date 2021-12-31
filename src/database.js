@@ -20,11 +20,6 @@ export function writeUserData(userId, name, email, photoURL, providerId) {
     });
 }
 
-// clear database
-export function clearDatabase() {
-  set(ref(database, "users"), {});
-}
-
 export function checkIfUserExists(userId) {
   const dbRef = ref(database);
   get(child(dbRef, "users/" + userId)).then((snapshot) => {

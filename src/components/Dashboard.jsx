@@ -4,7 +4,6 @@ import Remaining from "./budgetApp/Remaining";
 import ExpenseTotal from "./budgetApp/ExpenseTotal";
 import ExpenseList from "./budgetApp/ExpenseList";
 import AddExpenseForm from "./budgetApp/AddExpenseForm";
-import { clearDatabase } from "../database";
 import { AppContext } from "../context/AppContext";
 
 export default function Dashboard() {
@@ -23,9 +22,6 @@ export default function Dashboard() {
         <ExpenseList />
         <AddExpenseForm />
       </div>
-      <button className="bg-blue-500 border" onClick={() => clearDatabase()}>
-        Delete database
-      </button>
     </>
   );
 }

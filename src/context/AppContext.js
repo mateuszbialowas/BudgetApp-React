@@ -12,7 +12,6 @@ export const AppContext = createContext();
 const AppReducer = (state, action) => {
   switch (action.type) {
     case "ADD_EXPENSE":
-      console.log("ADD_EXPENSE");
       addExpenseToUser(action.user_id, action.payload);
       return {
         ...state,

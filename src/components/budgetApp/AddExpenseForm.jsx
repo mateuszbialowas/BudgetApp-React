@@ -15,7 +15,7 @@ export default function AddExpenseForm() {
     const expense = {
       id: uuidv4(),
       name: name,
-      cost: parseInt(cost),
+      cost: cost,
     };
 
     dispatch({
@@ -52,7 +52,7 @@ export default function AddExpenseForm() {
             Cost
           </label>
           <input
-            type="text"
+            type="number"
             id="cost"
             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required

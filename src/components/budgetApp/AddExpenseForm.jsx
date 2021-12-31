@@ -23,6 +23,9 @@ export default function AddExpenseForm() {
       payload: expense,
       user_id: user.uid
     })
+
+    setName("");
+    setCost("");
   };
   return (
     <div>

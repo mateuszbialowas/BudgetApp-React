@@ -1,13 +1,19 @@
 import { createContext, useReducer, useEffect } from "react";
 import { toast } from "react-toastify";
-import {useUserAuth} from "./UserAuthContext";
-import {getBudgetFromUser, getExpensesFromUser} from "../database";
+import { useUserAuth } from "./UserAuthContext";
+import {
+  getBudgetFromUser,
+  getExpensesFromUser,
+  addExpenseToUser,
+} from "../database";
 
 export const AppContext = createContext();
 
 const AppReducer = (state, action) => {
   switch (action.type) {
     case "ADD_EXPENSE":
+      console.log("ADD_EXPENSE");
+      addExpenseToUser(action.user_id, action.payload);
       return {
         ...state,
         expenses: [...state.expenses, action.payload],
@@ -23,6 +29,11 @@ const AppReducer = (state, action) => {
       return {
         ...state,
         budget: action.payload,
+      };
+    case "SET_EXPENSES":
+      return {
+        ...state,
+        expenses: action.payload,
       };
     case "SET_LOADING":
       return {
@@ -48,21 +59,26 @@ export const AppProvider = ({ children }) => {
   const { user } = useUserAuth();
 
   useEffect(() => {
-    dispatch({type: "SET_LOADING", payload: true});
+    // TODO create async function then call it and set loading to false
+    dispatch({ type: "SET_LOADING", payload: true });
     getBudgetFromUser(user.uid)
-        .then((budget) => {
-          dispatch({type: "SET_BUDGET", payload: budget});
-        })
-        .then(() => {
-          getExpensesFromUser(user.uid).then((expenses) => {
-            if (expenses.exist) {
-              dispatch({type: "ADD_EXPENSE", payload: expenses});
-            }
-          });
-        })
-        .then(() => {
-          dispatch({type: "SET_LOADING", payload: false});
+      .then((budget) => {
+        dispatch({ type: "SET_BUDGET", payload: budget });
+      })
+      .then(() => {
+        console.log("start get expenses");
+        getExpensesFromUser(user.uid).then((expenses) => {
+          if (expenses) {
+            console.log("ADD_EXPENSE from useEffect");
+            console.log(...expenses);
+            dispatch({ type: "SET_EXPENSES", payload: expenses });
+          }
         });
+      })
+      .then(() => {
+        dispatch({ type: "SET_LOADING", payload: false });
+        console.log("SET_LOADING to false from useEffect");
+      });
   }, [user]);
 
   useEffect(() => {

@@ -6,7 +6,7 @@ export default function ExpenseList() {
   const { expenses } = useContext(AppContext);
   return (
     <div>
-      <h2 className="my-3 font-medium text-4xl md:text-5xl">Expenses</h2>
+      <h2 className="my-3 font-bold text-2xl md:text-5xl">Recent transactions</h2>
       <div className="mt-4 overflow-hidden rounded-md sm:rounded-lg shadow-md">
         <table className="w-full">
           <thead className="bg-gray-100">
@@ -25,6 +25,7 @@ export default function ExpenseList() {
               </th>
               <th className="px-6 py-3 relative" scope="col">
                 <span className="sr-only">Delete</span>
+                <span className="sr-only">Expand arrow</span>
               </th>
             </tr>
           </thead>

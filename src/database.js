@@ -26,10 +26,8 @@ export async function addExpenseToUser(userId, expense) {
     return;
   }
   try {
-    console.log("addExpenseToUser");
     set(ref(database, `users/${userId}/expenses/${expense.id}`), expense);
   } catch (error) {
-    console.log(error);
     toast.error(error.message);
   }
 }
@@ -70,8 +68,6 @@ export async function getExpensesFromUser(userId) {
 }
 
 export function deleteExpenseFromUser(userId, expenseId) {
-  console.log({ userId }, { expenseId });
   let expenseRef = ref(database, `users/${userId}/expenses/${expenseId}`);
-  console.log(expenseRef);
-  set(expenseRef, null).then(console.log("deleted"));
+  set(expenseRef, null);
 }

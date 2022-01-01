@@ -125,7 +125,6 @@ export function UserAuthContextProvider({ children }) {
       setUser(currentUser);
     });
     return () => {
-      console.warn("unsubscribe");
       unsubscribe();
     };
   }, []);

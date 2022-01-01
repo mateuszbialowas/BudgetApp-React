@@ -18,6 +18,10 @@ module.exports = {
           yellow: "#FDE74C",
           inputGray: "#3c3c3c",
           inputGrayBorder: "#c8c8c8",
+          expenses: {
+            income: "#14DE41",
+            spend: "#F3D819",
+          },
         },
       },
     },

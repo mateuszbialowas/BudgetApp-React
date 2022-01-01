@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimesCircle,
@@ -7,10 +7,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../context/AppContext";
 import { useUserAuth } from "../../context/UserAuthContext";
+import EditExpenseForm from "./EditExpenseForm";
 
 export default function ExpenseItem(props) {
   const { dispatch } = useContext(AppContext);
   const { user } = useUserAuth();
+  const [editable, setEditable] = useState(false);
 
   const handleDeleteExpense = () => {
     dispatch({
@@ -21,6 +23,7 @@ export default function ExpenseItem(props) {
   };
 
   const collapseDetailsTransaction = () => {
+    setEditable(false);
     const details = document.getElementById(`details-${props.id}`);
     const caret = document.getElementById(`collapse-button-${props.id}`);
     if (details.style.display === "none") {
@@ -33,6 +36,7 @@ export default function ExpenseItem(props) {
   };
 
   const { name, cost, details, date, category, categoryEmoji } = props;
+   
   return (
     <>
       <tr className="border bg-gray-50">
@@ -68,7 +72,10 @@ export default function ExpenseItem(props) {
           <div className="flex flex-col">
             <span className="max-w-5xl">🔍️ Details: {details}</span>
             <span>🗓️ Date: {date}</span>
-            <button className="mt-3 text-white bg-blue-700 hover:bg-blue-800 rounded-md text-xs py-1 px-5 text-center w-fit font-medium">
+            <button
+              onClick={() => setEditable(true)}
+              className="mt-3 text-white bg-blue-700 hover:bg-blue-800 rounded-md text-xs py-1 px-5 text-center w-fit font-medium"
+            >
               <FontAwesomeIcon icon={faEdit} /> Edit
             </button>
           </div>
@@ -82,6 +89,7 @@ export default function ExpenseItem(props) {
           />
         </td>
       </tr>
+      {editable ? EditExpenseForm(props) : null}
     </>
   );
 }

@@ -41,6 +41,18 @@ const AppReducer = (state, action) => {
         ...state,
         isLoading: action.payload,
       };
+    case "EDIT_EXPENSE":
+      return {
+        ...state,
+        expenses: state.expenses.map((expense) => {
+          if (expense.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return expense;
+          }
+        }),
+      };
+
     default:
       return state;
   }
@@ -49,8 +61,52 @@ const AppReducer = (state, action) => {
 const initialState = {
   budget: 0,
   expenses: [
-    // { id: 12, name: "shopping", cost: 40 },
-    // { id: 13, name: "holiday", cost: 50 },
+    // {
+    //   id: 12,
+    //   name: "shopping",
+    //   cost: 40,
+    //   details:
+    //     "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla, officia qui aperiam id quis est fugiat voluptatibus? Incidunt, temporibus! Id repudiandae provident laborum, odio ullam expedita veniam doloremque dignissimos est fugiat. Similique tenetur harum obcaecati distinctio dolores perferendis molestiae? Nesciunt mollitia esse dolorum id error alias velit doloremque qui eos!",
+    //   date: "2020-01-01",
+    //   category: "food",
+    //   categoryEmoji: "🍔",
+    // },
+    // {
+    //   id: 13,
+    //   name: "rent",
+    //   cost: 500,
+    //   details: "rent",
+    //   date: "2020-01-01",
+    //   category: "housing",
+    //   categoryEmoji: "🏠",
+    // },
+    // {
+    //   id: 14,
+    //   name: "car",
+    //   cost: 200,
+    //   details: "fuel",
+    //   date: "2020-01-01",
+    //   category: "transportation",
+    //   categoryEmoji: "🚗",
+    // },
+    // {
+    //   id: 15,
+    //   name: "salary",
+    //   cost: -1000,
+    //   details: "salary",
+    //   date: "2020-01-01",
+    //   category: "income",
+    //   categoryEmoji: "💰",
+    // },
+    // {
+    //   id: 16,
+    //   name: "Rękawice bokserskie",
+    //   cost: 100,
+    //   details: "Rękawice bokserskie",
+    //   date: "2020-01-01",
+    //   category: "clothes",
+    //   categoryEmoji: "👕",
+    // },
   ],
   isLoading: false,
 };

@@ -10,17 +10,23 @@ export default function ExpenseList() {
         Recent transactions
       </h2>
       <div className="mt-4 overflow-hidden rounded-md sm:rounded-lg shadow-md">
-        <table className="w-full">
-          <thead className="bg-gray-100">
+        <table className="w-full table-fixed">
+          {/* <thead className="bg-gray-100">
             <tr>
               <th
-                className="text-left text-xs font-medium px-6 py-3 uppercase tracking-wider"
+                className="text-left text-xs font-medium pl-6 py-3 uppercase tracking-wider"
+                scope="col"
+              >
+                Category
+              </th>
+              <th
+                className="text-left text-xs font-medium py-3 uppercase tracking-wider"
                 scope="col"
               >
                 Name
               </th>
               <th
-                className="text-left text-xs font-medium px-6 py-3 uppercase tracking-wider"
+                className="text-left text-xs font-medium py-3 uppercase tracking-wider"
                 scope="col"
               >
                 Cost
@@ -30,7 +36,7 @@ export default function ExpenseList() {
                 <span className="sr-only">Expand arrow</span>
               </th>
             </tr>
-          </thead>
+          </thead> */}
           <tbody>
             {expenses.length > 0 ? (
               expenses.map((expense) => (

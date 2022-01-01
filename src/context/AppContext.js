@@ -67,14 +67,15 @@ export const AppProvider = ({ children }) => {
         dispatch({ type: "SET_BUDGET", payload: budget });
       })
       .then(() => {
-        getExpensesFromUser(user.uid).then((expenses) => {
-          if (expenses) {
-            dispatch({ type: "SET_EXPENSES", payload: expenses });
-          }
-        });
-      })
-      .then(() => {
-        dispatch({ type: "SET_LOADING", payload: false });
+        getExpensesFromUser(user.uid)
+          .then((expenses) => {
+            if (expenses) {
+              dispatch({ type: "SET_EXPENSES", payload: expenses });
+            }
+          })
+          .then(() => {
+            dispatch({ type: "SET_LOADING", payload: false });
+          });
       });
   }, [user]);
 

@@ -1,6 +1,10 @@
 import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimesCircle, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimesCircle,
+  faCaretDown,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../context/AppContext";
 import { useUserAuth } from "../../context/UserAuthContext";
 
@@ -64,6 +68,9 @@ export default function ExpenseItem(props) {
           <div className="flex flex-col">
             <span className="max-w-5xl">🔍️ Details: {details}</span>
             <span>🗓️ Date: {date}</span>
+            <button className="mt-3 text-white bg-blue-700 hover:bg-blue-800 rounded-md text-xs py-1 px-5 text-center w-fit font-medium">
+              <FontAwesomeIcon icon={faEdit} /> Edit
+            </button>
           </div>
         </td>
         <td className="p-1 text-center">

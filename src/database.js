@@ -1,4 +1,4 @@
-import { ref, set, child, get, push } from "firebase/database";
+import { ref, set, child, get } from "firebase/database";
 import { database } from "./firebse";
 import { toast } from "react-toastify";
 const DEFAULT_BUDGET = 1500;
@@ -18,6 +18,20 @@ export function writeUserData(userId, name, email, photoURL, providerId) {
     .catch((error) => {
       toast.error(error.message);
     });
+}
+
+export async function addExpenseToUser(userId, expense) {
+  if (!userId || !expense) {
+    toast.error("No userId or expense");
+    return;
+  }
+  try {
+    console.log("addExpenseToUser");
+    set(ref(database, `users/${userId}/expenses/${expense.id}`), expense);
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+  }
 }
 
 export function checkIfUserExists(userId) {
@@ -44,7 +58,6 @@ export async function getBudgetFromUser(userId) {
 
 export async function getExpensesFromUser(userId) {
   try {
-    console.log("getExpensesFromUser");
     const dbRef = ref(database);
     const snapshot = await get(child(dbRef, "users/" + userId));
     if (snapshot.exists()) {
@@ -56,19 +69,9 @@ export async function getExpensesFromUser(userId) {
   }
 }
 
-export async function addExpenseToUser(userId, expense) {
-  if (!userId || !expense) {
-    toast.error("No userId or expense");
-    return;
-  }
-  try {
-    console.log("addExpenseToUser");
-    const postListRef = ref(database, `users/${userId}/expenses`);
-    const newPostRef = push(postListRef);
-    set(newPostRef, {
-      ...expense,
-    });
-  } catch (error) {
-    toast.error(error.message);
-  }
+export function deleteExpenseFromUser(userId, expenseId) {
+  console.log({ userId }, { expenseId });
+  let expenseRef = ref(database, `users/${userId}/expenses/${expenseId}`);
+  console.log(expenseRef);
+  set(expenseRef, null).then(console.log("deleted"));
 }

@@ -2,14 +2,17 @@ import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../context/AppContext";
+import { useUserAuth } from "../../context/UserAuthContext";
 
 export default function ExpenseItem(props) {
   const { dispatch } = useContext(AppContext);
+  const { user } = useUserAuth();
 
   const handleDeleteExpense = () => {
     dispatch({
       type: "DELETE_EXPENSE",
       payload: props.id,
+      user_id: user.uid
     });
   };
 

@@ -15,7 +15,7 @@ export default function AddExpenseForm() {
     const expense = {
       id: uuidv4(),
       name: name,
-      cost: cost,
+      cost: parseFloat(cost),
     };
 
     dispatch({

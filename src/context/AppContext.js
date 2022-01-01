@@ -5,6 +5,7 @@ import {
   getBudgetFromUser,
   getExpensesFromUser,
   addExpenseToUser,
+  deleteExpenseFromUser,
 } from "../database";
 
 export const AppContext = createContext();
@@ -18,6 +19,7 @@ const AppReducer = (state, action) => {
         expenses: [...state.expenses, action.payload],
       };
     case "DELETE_EXPENSE":
+      deleteExpenseFromUser(action.user_id, action.payload);
       return {
         ...state,
         expenses: state.expenses.filter(
@@ -65,18 +67,14 @@ export const AppProvider = ({ children }) => {
         dispatch({ type: "SET_BUDGET", payload: budget });
       })
       .then(() => {
-        console.log("start get expenses");
         getExpensesFromUser(user.uid).then((expenses) => {
           if (expenses) {
-            console.log("ADD_EXPENSE from useEffect");
-            console.log(...expenses);
             dispatch({ type: "SET_EXPENSES", payload: expenses });
           }
         });
       })
       .then(() => {
         dispatch({ type: "SET_LOADING", payload: false });
-        console.log("SET_LOADING to false from useEffect");
       });
   }, [user]);
 

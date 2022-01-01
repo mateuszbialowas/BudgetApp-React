@@ -6,7 +6,9 @@ export default function ExpenseList() {
   const { expenses } = useContext(AppContext);
   return (
     <div>
-      <h2 className="my-3 font-bold text-2xl md:text-5xl">Recent transactions</h2>
+      <h2 className="my-3 font-bold text-2xl md:text-5xl">
+        Recent transactions
+      </h2>
       <div className="mt-4 overflow-hidden rounded-md sm:rounded-lg shadow-md">
         <table className="w-full">
           <thead className="bg-gray-100">
@@ -32,12 +34,7 @@ export default function ExpenseList() {
           <tbody>
             {expenses.length > 0 ? (
               expenses.map((expense) => (
-                <ExpenseItem
-                  key={expense.id}
-                  id={expense.id}
-                  name={expense.name}
-                  cost={expense.cost}
-                ></ExpenseItem>
+                <ExpenseItem key={expense.id} {...expense}></ExpenseItem>
               ))
             ) : (
               <tr>

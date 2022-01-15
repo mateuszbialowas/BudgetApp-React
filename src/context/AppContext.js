@@ -53,6 +53,29 @@ const AppReducer = (state, action) => {
           }
         }),
       };
+    case "ORDER_EXPENSES_BY_COST_ASC":
+      return {
+        ...state,
+        expenses: [...state.expenses].sort((a, b) => {
+          return a.cost - b.cost;
+        }),
+      };
+    case "ORDER_EXPENSES_BY_COST_DESC":
+      return {
+        ...state,
+        expenses: [...state.expenses].sort((a, b) => {
+          return b.cost - a.cost;
+        }),
+      };
+    case "ORDER_EXPENSES_BY_DATE":
+      console.log("ORDER_EXPENSES_BY_DATE");
+      return {
+        ...state,
+        expenses: [...state.expenses].sort((a, b) => {
+          console.log(a.date, b.date);
+          return new Date(a.date) - new Date(b.date);
+        }),
+      };
 
     default:
       return state;

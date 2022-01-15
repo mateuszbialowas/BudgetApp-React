@@ -42,6 +42,7 @@ const AppReducer = (state, action) => {
         isLoading: action.payload,
       };
     case "EDIT_EXPENSE":
+      addExpenseToUser(action.user_id, action.payload);
       return {
         ...state,
         expenses: state.expenses.map((expense) => {

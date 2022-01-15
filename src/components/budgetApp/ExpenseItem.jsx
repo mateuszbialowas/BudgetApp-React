@@ -89,7 +89,7 @@ export default function ExpenseItem(props) {
           />
         </td>
       </tr>
-      {editable ? EditExpenseForm(props) : null}
+      {editable ? <EditExpenseForm {...props} /> : null}
     </>
   );
 }

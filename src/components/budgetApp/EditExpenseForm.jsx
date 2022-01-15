@@ -15,11 +15,11 @@ export default function EditExpenseForm(props) {
     const expense = {
       id: id,
       name: form.name.value,
-      cost: parseFloat(cost),
-      details: details,
-      date: date,
+      cost: parseFloat(form.cost.value),
+      details: form.details.value,
+      date: form.date.value,
       category: form.category.value,
-      categoryEmoji: categoryEmoji,
+      categoryEmoji: form.categoryEmoji.value,
     };
 
     dispatch({
@@ -62,6 +62,70 @@ export default function EditExpenseForm(props) {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder={category}
               defaultValue={category}
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="categoryEmoji"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Category Emoji
+            </label>
+            <input
+              type="text"
+              id="categoryEmoji"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder={categoryEmoji}
+              defaultValue={categoryEmoji}
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="details"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Details
+            </label>
+            <input
+              type="text"
+              id="details"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder={details}
+              defaultValue={details}
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="cost"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Cost
+            </label>
+            <input
+              type="text"
+              id="cost"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder={cost}
+              defaultValue={cost}
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="date"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Date
+            </label>
+            <input
+              type="date"
+              id="date"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder={date}
+              defaultValue={date}
               required
             />
           </div>

@@ -8,6 +8,10 @@ export default function AddExpenseForm() {
   const { user } = useUserAuth();
   const [name, setName] = useState("");
   const [cost, setCost] = useState("");
+  const [categoryEmoji, setCategoryEmoji] = useState("");
+  const [category, setCategory] = useState("");
+  const [details, setDetails] = useState("");
+  const [date, setDate] = useState("");
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -16,16 +20,24 @@ export default function AddExpenseForm() {
       id: uuidv4(),
       name: name,
       cost: parseFloat(cost),
+      category: category,
+      categoryEmoji: categoryEmoji,
+      details: details,
+      date: date,
     };
 
     dispatch({
-      type: 'ADD_EXPENSE',
+      type: "ADD_EXPENSE",
       payload: expense,
-      user_id: user.uid
-    })
+      user_id: user.uid,
+    });
 
     setName("");
     setCost("");
+    setCategoryEmoji("");
+    setCategory("");
+    setDetails("");
+    setDate("");
   };
   return (
     <div>
@@ -45,6 +57,38 @@ export default function AddExpenseForm() {
             required
             value={name}
             onChange={(event) => setName(event.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="category"
+            className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+          >
+            Category
+          </label>
+          <input
+            type="text"
+            id="category"
+            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            required
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="categoryEmoji"
+            className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+          >
+            Category Emoji
+          </label>
+          <input
+            type="text"
+            id="categoryEmoji"
+            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            required
+            value={categoryEmoji}
+            onChange={(event) => setCategoryEmoji(event.target.value)}
           />
         </div>
         <div className="mb-6">

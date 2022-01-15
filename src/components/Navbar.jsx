@@ -118,12 +118,20 @@ export default function Navbar() {
         >
           <ul className="py-9 px-9 flex flex-col space-y-9">
             <li>
-              <Link to="#" className="text-xl text-white">
+              <Link
+                onClick={() => toggleMenu()}
+                to="#"
+                className="text-xl text-white"
+              >
                 Pricing & Features
               </Link>
             </li>
             <li>
-              <Link to="#" className="text-xl text-white">
+              <Link
+                onClick={() => toggleMenu()}
+                to="#"
+                className="text-xl text-white"
+              >
                 Blog
               </Link>
             </li>
@@ -138,6 +146,7 @@ export default function Navbar() {
                   Log out
                 </button>
                 <Link
+                  onClick={() => toggleMenu()}
                   to="/dashboard"
                   className="px-5 py-4
         bg-blue-light text-white rounded-lg font-bold shadow-md
@@ -149,6 +158,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
+                  onClick={() => toggleMenu()}
                   className="text-xl
                       text-white"
                   to="/login"
@@ -156,6 +166,7 @@ export default function Navbar() {
                   Log in
                 </Link>
                 <Link
+                  onClick={() => toggleMenu()}
                   to="/signup"
                   className="px-5 py-4
           bg-blue-light text-white rounded-lg font-bold shadow-md

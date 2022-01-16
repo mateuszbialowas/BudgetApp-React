@@ -7,7 +7,6 @@ export default function ExpenseList() {
   const { expenses } = useContext(AppContext);
 
   const orderExpensesByCostDesc = () => {
-    console.log("orderByCostDesc");
     dispatch({
       type: "ORDER_EXPENSES_BY_COST_DESC",
       payload: expenses,
@@ -15,7 +14,6 @@ export default function ExpenseList() {
   };
 
   const orderExpensesByCostAsc = () => {
-    console.log("orderByCostAsc");
     dispatch({
       type: "ORDER_EXPENSES_BY_COST_ASC",
       payload: expenses,
@@ -23,7 +21,6 @@ export default function ExpenseList() {
   };
 
   const orderExpensesByDate = () => {
-    console.log("orderByDate");
     dispatch({
       type: "ORDER_EXPENSES_BY_DATE",
       payload: expenses,

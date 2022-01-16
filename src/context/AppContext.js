@@ -68,11 +68,9 @@ const AppReducer = (state, action) => {
         }),
       };
     case "ORDER_EXPENSES_BY_DATE":
-      console.log("ORDER_EXPENSES_BY_DATE");
       return {
         ...state,
         expenses: [...state.expenses].sort((a, b) => {
-          console.log(a.date, b.date);
           return new Date(a.date) - new Date(b.date);
         }),
       };
